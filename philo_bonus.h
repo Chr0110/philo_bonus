@@ -9,29 +9,33 @@
 # include <sys/time.h>
 # include <inttypes.h>
 # include <sys/wait.h>
-
-typedef struct s_child
-{
-	int *philo;
-}	t_child;
-
+# include <semaphore.h>
 typedef struct s_sharing
 {
-	int				id;
-	int				start_time;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				time_to_break;
-	int				n_o_p;
-	int				number_of_times_each_philosopher_must_eat;
-	int				time_of_repeat;
-	pthread_mutex_t	print;
-	pthread_mutex_t	*fork;
-	pthread_mutex_t	last_eat;
-	pthread_mutex_t	lets_break;
-	pthread_mutex_t	how_much_eating;
+	sem_t	print;
+	sem_t	*fork;
+	sem_t	last_eat;
+	sem_t	lets_break;
+	sem_t	how_much_eating;
 }	t_sharing;
+
+// typedef struct s_sharing
+// {
+// 	int				id;
+// 	int				start_time;
+// 	int				time_to_die;
+// 	int				time_to_eat;
+// 	int				time_to_sleep;
+// 	int				time_to_break;
+// 	int				n_o_p;
+// 	int				number_of_times_each_philosopher_must_eat;
+// 	int				time_of_repeat;
+// 	pthread_mutex_t	print;
+// 	pthread_mutex_t	*fork;
+// 	pthread_mutex_t	last_eat;
+// 	pthread_mutex_t	lets_break;
+// 	pthread_mutex_t	how_much_eating;
+// }	t_sharing;
 int		ft_check_integer(int ac, char **av);
 int		ft_atoi(const char *str);
 int		time_now(void);
