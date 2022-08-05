@@ -6,7 +6,7 @@
 /*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 19:38:16 by eradi-            #+#    #+#             */
-/*   Updated: 2022/07/31 19:45:34 by eradi-           ###   ########.fr       */
+/*   Updated: 2022/08/04 23:20:57 by eradi-           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ int	time_now(void)
 	return (((time.tv_sec * 1000) + (time.tv_usec / 1000)));
 }
 
-// int	ft_time(void *phi)
-// {
-// 	t_philo	*philo;
+int	ft_time(void *phi)
+{
+	t_philo	*philo;
 
-// 	philo = (t_philo *)phi;
-// 	return (time_now() - philo->share->start_time);
-// }
+	philo = (t_philo*)phi;
+	return (time_now() - philo->share->start_time);
+}
 
 int	ft_strlen(char *s)
 {
