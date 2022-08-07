@@ -4,7 +4,7 @@ CFLAGS =  -Wall -Wextra -Werror
 
 RM = rm -f
 
-CC = cc 
+CC = cc #-fsanitize=thread -g
 
 AR = ar -rcs
 
@@ -12,7 +12,7 @@ OBJECT = *.o
 
 FILES =	main.c\
 		philo_bonus_utils.c\
-		#philo_utils_2.c\
+		philo_bonus_utils2.c\
 
 OBJS = $(subst .c,.o,$(FILES)) 
 all : $(NAME)

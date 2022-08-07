@@ -1,8 +1,9 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory `/Users/eradi-/Desktop/philo_bonus'
 cc  -Wall -Wextra -Werror    -c -o main.o main.c
- 
 cc  -Wall -Wextra -Werror    -c -o philo_bonus_utils.o philo_bonus_utils.c
+ 
+cc  -Wall -Wextra -Werror    -c -o philo_bonus_utils2.o philo_bonus_utils2.c
 cc   -o philo_bonus *.o
 make: Leaving directory `/Users/eradi-/Desktop/philo_bonus'
  
