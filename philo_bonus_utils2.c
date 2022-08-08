@@ -6,7 +6,7 @@
 /*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 14:39:14 by eradi-            #+#    #+#             */
-/*   Updated: 2022/08/07 00:44:04 by eradi-           ###   ########.fr       */
+/*   Updated: 2022/08/07 23:00:17 by eradi-           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	for_share(t_sharing *share, char **av)
 	share->start_time = time_now();
 	sem_unlink("./fork");
 	share->fork = sem_open("./fork",O_CREAT,0660, share->n_o_p);
-	printf("%p\n",share->fork);
+	//printf("%p\n",share->fork);
 	if (av[5])
 		share->number_of_times_each_philosopher_must_eat = ft_atoi(av[5]);
 }

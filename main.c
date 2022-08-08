@@ -6,7 +6,7 @@
 /*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 01:22:39 by eradi-            #+#    #+#             */
-/*   Updated: 2022/08/07 01:51:30 by eradi-           ###   ########.fr       */
+/*   Updated: 2022/08/08 07:44:23 by eradi-           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,12 @@
 int	ft_check_death(void *phi)
 {
 	t_philo	*philo;
-	int		j;
 
 	philo = (t_philo *)phi;
 	while (1)
 	{
-		j = -1;
-		while (++j < philo->share->n_o_p)
-		{
-			// printf("this time of last eat %d\n",philo[j].last_eat);
-			sem_wait(philo->share->last_eat);
-			if ((time_now() - philo[j].last_eat) >= (philo->share->time_to_die))
-			{
-				ft_print(j, philo, "is died");
-				return (0);
-			}
-			sem_post(philo->share->last_eat);
-			// sem_wait(philo->share->how_much_eating);
-			// if (philo->share->number_of_times_each_philosopher_must_eat
-			// 	&& check_time_of_eating(philo, j) == 0)
-			// 	return (0);
-			// sem_post(philo->share->how_much_eating);
-		}
+		if (philo->last_eat == philo->share->number_of_times_each_philosopher_must_eat)
+			exit(0);
 	}
 	return (1);
 }
@@ -51,7 +35,9 @@ void	ft_print(int j, void *phii, const char *s)
 	str1 = "stop";
 	if (s == str1)
 		return ;
+	sem_wait(philo->share->print);
 	printf("%d ms %d %s \n",ft_time(philo), j + 1, s);
+	sem_post(philo->share->print);
 	if (s == str)
 		return ;
 }
@@ -59,7 +45,7 @@ void	ft_print(int j, void *phii, const char *s)
 void	*do_it(void *p)
 {
 	t_philo	*philo;
-	while(1)
+	 while(1)
 	{
 		philo = (t_philo *)p;
 		sem_wait(philo->share->fork);
@@ -67,9 +53,10 @@ void	*do_it(void *p)
 		sem_wait(philo->share->fork);
 		ft_print(philo->id, philo, "has taken a fork2");
 		ft_print(philo->id, philo, "is eating");
+		philo->last_eat++;
+		// printf("%d\n",philo->last_eat);
 		my_usleep(philo->share->time_to_eat);
 		sem_wait(philo->share->last_eat);
-		philo->last_eat = time_now();
 		sem_post(philo->share->last_eat);
 		sem_post(philo->share->fork);
 		sem_post(philo->share->fork);
@@ -86,6 +73,7 @@ int	main(int ac, char **av)
 	{
 		int i = ft_atoi(av[1]);
 		int j = 0;
+		int status;
 		int philo[200];
 		t_sharing *share;
 		pthread_t	*philo_shinigami;
@@ -104,25 +92,23 @@ int	main(int ac, char **av)
 		j = 0;
 		while(j < i)
 		{
-			if ((philo[j] = fork()) < 0)
-				printf("error");
-			else if (philo[j] == 0)
+			if ((philo[j] = fork()) == 0)
 			{
 				philo_struct[0].id = j;
-				philo_struct[0].last_eat = time_now();
+				philo_struct[0].last_eat =0;
+				pthread_create(&philo_shinigami[j], NULL, (void *)ft_check_death, &philo_struct[0]);
 				do_it(&philo_struct[0]);
 			}
-			usleep(100);
+			usleep(1000);
 			j++;
 		}
-		while(1)
+		j = 0;
+		waitpid(-1, &status, 0);
+		while (j < i)
 		{
-			if (ft_check_death(philo_struct) == 0)
-				exit(0);
+			kill(philo[j], SIGKILL);
+			j++;
 		}
-		int status;
-		while(waitpid( -1,&status, 0) != -1)
-			;
 		sem_close(share->fork);
 		sem_close(share->how_much_eating);
 		sem_close(share->print);

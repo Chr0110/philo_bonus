@@ -11,6 +11,8 @@
 # include <sys/wait.h>
 # include <semaphore.h>
 # include <fcntl.h>   
+ #include <sys/types.h>
+ #include <signal.h>
 typedef struct s_sharing
 {
 	sem_t	*print;
