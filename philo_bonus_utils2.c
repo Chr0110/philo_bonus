@@ -6,7 +6,7 @@
 /*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 14:39:14 by eradi-            #+#    #+#             */
-/*   Updated: 2022/08/07 23:00:17 by eradi-           ###   ########.fr       */
+/*   Updated: 2022/08/09 02:37:00 by eradi-           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,13 @@ void	for_share(t_sharing *share, char **av)
 	share->time_to_sleep = ft_atoi(av[4]);
 	share->start_time = time_now();
 	sem_unlink("./fork");
+	sem_unlink("./print");
+	sem_unlink("./last_eat");
+	sem_unlink("./how_much_eating");
+	share->how_much_eating = sem_open("./how_much_eating",O_CREAT,0660,1);
+	share->print = sem_open("./print",O_CREAT,0660,1);
+	share->last_eat = sem_open("./last_eat",O_CREAT,0660,1);
 	share->fork = sem_open("./fork",O_CREAT,0660, share->n_o_p);
-	//printf("%p\n",share->fork);
 	if (av[5])
 		share->number_of_times_each_philosopher_must_eat = ft_atoi(av[5]);
 }

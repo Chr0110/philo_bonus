@@ -20,8 +20,8 @@ typedef struct s_sharing
 	sem_t	*last_eat;
 	sem_t	*lets_break;
 	sem_t	*how_much_eating;
-	int		start_time;
 	int		time_to_die;
+	int		start_time;
 	int		time_to_eat;
 	int		time_to_sleep;
 	int		time_to_break;
@@ -33,9 +33,11 @@ typedef struct s_sharing
 
 typedef struct s_philo
 {
-	int				last_eat;
-	int				id;
-	t_sharing		*share;
+	int			finish_eating;
+	int			last_eat;
+	int			id;
+	t_sharing	*share;
+	int			pid;
 }	t_philo;
 
 int		ft_check_integer(int ac, char **av);
@@ -47,4 +49,5 @@ void	my_usleep(long ti);
 void	for_share(t_sharing *share, char **av);
 void	ft_print(int j, void *phii, const char *s);
 int		check_time_of_eating(t_philo *philo, int j);
+int		ft_check_eating(void *phi);
 # endif
