@@ -6,7 +6,7 @@
 /*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 14:39:14 by eradi-            #+#    #+#             */
-/*   Updated: 2022/08/09 03:28:03 by eradi-           ###   ########.fr       */
+/*   Updated: 2022/08/09 07:28:55 by eradi-           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ void	for_share(t_sharing *share, char **av)
 	share->time_to_sleep = ft_atoi(av[4]);
 	share->start_time = time_now();
 	sem_unlink("./fork");
-	sem_unlink("./print");
 	sem_unlink("./last_eat");
+	sem_unlink("./print");
+	sem_unlink("./finish_eating");
 	sem_unlink("./how_much_eating");
 	share->how_much_eating = sem_open("./how_much_eating", O_CREAT, 0660, 1);
+	share->finish_eating = sem_open("./finish_eating", O_CREAT, 0660, 1);
 	share->print = sem_open("./print", O_CREAT, 0660, 1);
 	share->last_eat = sem_open("./last_eat", O_CREAT, 0660, 1);
 	share->fork = sem_open("./fork", O_CREAT, 0660, share->n_o_p);
@@ -49,7 +51,5 @@ void	ft_print(int j, void *phii, const char *s)
 	str = "is died";
 	sem_wait(philo->share->print);
 	printf("%d ms %d %s \n", ft_time(philo), j + 1, s);
-	if (s == str)
-		exit(0);
 	sem_post(philo->share->print);
 }

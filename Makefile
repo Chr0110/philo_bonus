@@ -4,13 +4,13 @@ CFLAGS =  -Wall -Wextra -Werror
 
 RM = rm -f
 
-CC = cc #-fsanitize=thread -g
+CC = cc -fsanitize=thread -g
 
 AR = ar -rcs
 
 OBJECT = *.o
 
-FILES =	main.c\
+FILES =	philo_bonus.c\
 		philo_bonus_utils.c\
 		philo_bonus_utils2.c\
 

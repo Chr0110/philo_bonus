@@ -6,7 +6,7 @@
 /*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/09 03:21:53 by eradi-            #+#    #+#             */
-/*   Updated: 2022/08/09 03:23:50 by eradi-           ###   ########.fr       */
+/*   Updated: 2022/08/09 06:15:43 by eradi-           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_sharing
 	sem_t	*last_eat;
 	sem_t	*lets_break;
 	sem_t	*how_much_eating;
+	sem_t	*finish_eating;
 	int		time_to_die;
 	int		start_time;
 	int		time_to_eat;
