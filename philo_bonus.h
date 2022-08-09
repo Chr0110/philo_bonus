@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/08/09 03:21:53 by eradi-            #+#    #+#             */
+/*   Updated: 2022/08/09 03:23:50 by eradi-           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 # include <time.h>
@@ -11,8 +23,9 @@
 # include <sys/wait.h>
 # include <semaphore.h>
 # include <fcntl.h>   
- #include <sys/types.h>
- #include <signal.h>
+# include <sys/types.h>
+# include <signal.h>
+
 typedef struct s_sharing
 {
 	sem_t	*print;
@@ -50,4 +63,4 @@ void	for_share(t_sharing *share, char **av);
 void	ft_print(int j, void *phii, const char *s);
 int		check_time_of_eating(t_philo *philo, int j);
 int		ft_check_eating(void *phi);
-# endif
+#endif

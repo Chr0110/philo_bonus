@@ -6,7 +6,7 @@
 /*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 01:22:39 by eradi-            #+#    #+#             */
-/*   Updated: 2022/08/09 02:49:14 by eradi-           ###   ########.fr       */
+/*   Updated: 2022/08/09 03:18:01 by eradi-           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	ft_check_eating(void *phi)
 	philo = (t_philo *)phi;
 	while (1)
 	{
-		if (philo->last_eat > philo->share->number_of_times_each_philosopher_must_eat)
+		if (philo->last_eat
+			> philo->share->number_of_times_each_philosopher_must_eat)
 			exit(0);
 	}
 	return (1);
@@ -41,23 +42,11 @@ int	ft_check_death(void *phi)
 	return (1);
 }
 
-void	ft_print(int j, void *phii, const char *s)
-{
-	t_philo		*philo;
-	philo = (t_philo *)phii;
-	const char *str;
-	str = "is died";
-	sem_wait(philo->share->print);
-	printf("%d ms %d %s \n",ft_time(philo), j + 1, s);
-	if (s == str)
-		exit(0);
-	sem_post(philo->share->print);
-}
-
 void	*do_it(void *p)
 {
 	t_philo	*philo;
-	while(1)
+
+	while (1)
 	{
 		philo = (t_philo *)p;
 		sem_wait(philo->share->fork);
@@ -76,47 +65,55 @@ void	*do_it(void *p)
 		my_usleep(philo->share->time_to_sleep);
 		ft_print(philo->id, philo, "is thinking");
 	}
-		exit(0);
+	exit(0);
+}
+
+void	ft_creat_process(int j, t_philo *philo_struct, char **av, int *philo)
+{
+	pthread_t	*philo_shinigami;
+	pthread_t	*philo_shinigami2;
+
+	philo_shinigami = malloc(ft_atoi(av[1]) * sizeof(pthread_t));
+	philo_shinigami2 = malloc(ft_atoi(av[1]) * sizeof(pthread_t));
+	while (j < ft_atoi(av[1]))
+	{
+		philo[j] = fork();
+		if (philo[j] == 0)
+		{
+			philo_struct[0].id = j;
+			philo_struct[0].pid = philo[j];
+			philo_struct[0].last_eat = 0;
+			philo_struct[0].finish_eating = time_now();
+			if (av[5])
+				pthread_create(&philo_shinigami[j], NULL,
+					(void *)ft_check_eating, &philo_struct[0]);
+			pthread_create(&philo_shinigami2[j], NULL,
+				(void *)ft_check_death, &philo_struct[0]);
+			do_it(&philo_struct[0]);
+		}
+		usleep(1000);
+		j++;
+	}
 }
 
 int	main(int ac, char **av)
 {
+	int			j;
+	int			status;
+	t_sharing	*share;
+	t_philo		*philo_struct;
+	int			philo[200];
+
 	if ((ac == 5 || ac == 6) && (ft_check_integer(ac, av) == 0))
 	{
-		int i = ft_atoi(av[1]);
-		int j = 0;
-		int status;
-		int philo[200];
-		t_sharing *share;
-		pthread_t	*philo_shinigami;
-		pthread_t	*philo_shinigami2;
-		t_philo		*philo_struct;
-		philo_shinigami = malloc(i * sizeof(pthread_t));
-		philo_shinigami2 = malloc(i * sizeof(pthread_t));
+		j = 0;
 		share = malloc(1 * sizeof(t_sharing));
 		philo_struct = malloc(1 * sizeof(t_philo));
 		for_share(share, av);
 		philo_struct->share = share;
-		j = 0;
-		while(j < i)
-		{
-			if ((philo[j] = fork()) == 0)
-			{
-				philo_struct[0].id = j;
-				philo_struct[0].pid = philo[j];
-				philo_struct[0].last_eat = 0;
-				philo_struct[0].finish_eating = time_now();
-				if (av[5])
-					pthread_create(&philo_shinigami[j], NULL, (void *)ft_check_eating, &philo_struct[0]);
-				pthread_create(&philo_shinigami2[j], NULL, (void *)ft_check_death, &philo_struct[0]);
-				do_it(&philo_struct[0]);
-			}
-			usleep(1000);
-			j++;
-		}
-		j = 0;
+		ft_creat_process(j, philo_struct, av, philo);
 		waitpid(-1, &status, 0);
-		while (j < i)
+		while (j < ft_atoi(av[1]))
 		{
 			kill(philo[j], SIGKILL);
 			j++;

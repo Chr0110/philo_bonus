@@ -6,7 +6,7 @@
 /*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/31 19:38:16 by eradi-            #+#    #+#             */
-/*   Updated: 2022/08/04 23:20:57 by eradi-           ###   ########.fr       */
+/*   Updated: 2022/08/09 03:24:27 by eradi-           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_time(void *phi)
 {
 	t_philo	*philo;
 
-	philo = (t_philo*)phi;
+	philo = (t_philo *)phi;
 	return (time_now() - philo->share->start_time);
 }
 
