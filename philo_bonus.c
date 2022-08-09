@@ -6,7 +6,7 @@
 /*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/07 01:22:39 by eradi-            #+#    #+#             */
-/*   Updated: 2022/08/09 07:34:10 by eradi-           ###   ########.fr       */
+/*   Updated: 2022/08/09 23:33:46 by eradi-           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	ft_check_death(void *phi)
 		if (time_now() - philo->finish_eating >= philo->share->time_to_die)
 		{
 			ft_print(philo->id, philo, "is died");
-			exit(0);
 		}
 		sem_post(philo->share->finish_eating);
 	}
@@ -56,7 +55,7 @@ void	*do_it(void *p)
 		sem_wait(philo->share->fork);
 		ft_print(philo->id, philo, "has taken a fork");
 		sem_wait(philo->share->fork);
-		ft_print(philo->id, philo, "has taken a fork2");
+		ft_print(philo->id, philo, "has taken a fork");
 		ft_print(philo->id, philo, "is eating");
 		sem_wait(philo->share->last_eat);
 		philo->last_eat++;

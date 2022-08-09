@@ -6,7 +6,7 @@
 /*   By: eradi- <eradi-@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/06 14:39:14 by eradi-            #+#    #+#             */
-/*   Updated: 2022/08/09 07:33:59 by eradi-           ###   ########.fr       */
+/*   Updated: 2022/08/09 23:33:38 by eradi-           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	ft_print(int j, void *phii, const char *s)
 	philo = (t_philo *)phii;
 	str = "is died";
 	sem_wait(philo->share->print);
-	printf("%d ms %d %s \n", ft_time(philo), j + 1, s);
+	printf("%d %d %s \n", ft_time(philo), j + 1, s);
+	if (s == str)
+		exit(0);
 	sem_post(philo->share->print);
 }

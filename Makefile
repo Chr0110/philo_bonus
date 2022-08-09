@@ -4,7 +4,7 @@ CFLAGS =  -Wall -Wextra -Werror
 
 RM = rm -f
 
-CC = cc #-fsanitize=thread -g
+CC = cc
 
 AR = ar -rcs
 
